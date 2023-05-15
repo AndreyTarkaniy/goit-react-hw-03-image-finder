@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import * as ImageService from 'service/image-service';
 import { SearchBar } from 'components/searchbar/searchbar';
+import { ImageGallery } from 'components/imageGallery/imageGallery';
+import { ImageGalleryItem } from 'components/imageGalleryItem/imageGalleryItem';
 
 export class App extends Component {
   state = {
@@ -8,10 +10,6 @@ export class App extends Component {
     page: 1,
     images: [],
   };
-
-  // componentDidMount() {
-  //   ImageService.getImage(this.state.query, this.state.page);
-  // }
 
   async componentDidUpdate(_, prevState) {
     const { query, page } = this.state;
@@ -36,6 +34,15 @@ export class App extends Component {
   };
 
   render() {
-    return <SearchBar onSubmit={this.getQuery} />;
+    const { images } = this.state;
+
+    return (
+      <div>
+        <SearchBar onSubmit={this.getQuery} />
+        <ImageGallery>
+          <ImageGalleryItem images={images} />
+        </ImageGallery>
+      </div>
+    );
   }
 }
