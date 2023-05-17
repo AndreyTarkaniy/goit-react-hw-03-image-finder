@@ -39,8 +39,6 @@ export class App extends Component {
           }
         );
 
-        // console.log(this.state.images);
-
         this.setState(prevState => {
           return {
             images: [...prevState.images, ...imagesData],
@@ -71,17 +69,11 @@ export class App extends Component {
   };
 
   incrementPage = () => {
-    // this.setState({
-    //   isLoading: true,
-    // });
     this.setState(prevState => {
       return {
         page: prevState.page + 1,
       };
     });
-    // this.setState({
-    //   isLoading: false,
-    // });
   };
 
   toggleModal = () => {
