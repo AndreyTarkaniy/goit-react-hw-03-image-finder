@@ -61,7 +61,7 @@ img {
 /*
  * Стили компонента SearchForm
  */
-.form {
+/* .form {
   display: flex;
   align-items: center;
   width: 100%;
@@ -100,9 +100,9 @@ img {
   white-space: nowrap;
   clip-path: inset(50%);
   border: 0;
-}
+} */
 
-.SearchForm-input {
+/* .SearchForm-input {
   display: inline-block;
   width: 100%;
   font: inherit;
@@ -116,7 +116,7 @@ img {
 .SearchForm-input::placeholder {
   font: inherit;
   font-size: 18px;
-}
+} */
 
 /*
  * Стили компонента ImageGallery
@@ -155,7 +155,8 @@ img {
   cursor: zoom-in;
 } */
 
-Стили компонента Modal .Overlay {
+/* Стили компонента Modal  */
+/* .Overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -171,7 +172,7 @@ img {
 .Modal {
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
-}
+} */
 
 /*
 * Стили компонента Buton (Load more)

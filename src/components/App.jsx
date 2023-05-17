@@ -1,9 +1,12 @@
 import { Component } from 'react';
+import { Alert, bootstrap } from 'bootstrap';
+
 import * as ImageService from 'service/image-service';
 import { SearchBar } from 'components/searchbar/searchbar';
 import { ImageGallery } from 'components/imageGallery/imageGallery';
 import { ImageGalleryItem } from 'components/imageGalleryItem/imageGalleryItem';
 import { Button } from 'components/button/button';
+import { Modal } from 'components/modal/modal';
 
 export class App extends Component {
   state = {
@@ -11,28 +14,58 @@ export class App extends Component {
     page: 1,
     images: [],
     totalImages: 0,
+    error: '',
+    isLoading: 'false',
+    modalData: null,
   };
 
   async componentDidUpdate(_, prevState) {
     const { query, page } = this.state;
 
     if (prevState.query !== query || prevState.page !== page) {
-      const data = await ImageService.getImage(query, page);
-      console.log(data);
-      this.setState(prevState => {
-        return {
-          images: [...prevState.images, ...data.data.hits],
-          totalImages: data.data.total,
-        };
-      });
+      try {
+        this.setState({ isLoading: true, error: '' });
+
+        const data = await ImageService.getImage(query, page);
+
+        const imagesData = data.data.hits.map(
+          ({ id, webformatURL, largeImageURL }) => {
+            return {
+              id,
+              webformatURL,
+              largeImageURL,
+            };
+          }
+        );
+
+        // console.log(this.state.images);
+
+        this.setState(prevState => {
+          return {
+            images: [...prevState.images, ...imagesData],
+            error: '',
+            totalImages: data.data.total,
+          };
+        });
+      } catch (error) {
+        this.setState({ error: 'Something went wrong' });
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
   }
 
   getQuery = query => {
+    if (query === this.state.query) {
+      alert('Change you request');
+      return;
+    }
+
     this.setState({
       query,
       page: 1,
       images: [],
+      totalImages: 0,
     });
   };
 
@@ -44,17 +77,38 @@ export class App extends Component {
     });
   };
 
+  toggleModal = () => {
+    this.setState({
+      modalData: !this.state.modalData,
+    });
+  };
+
+  selectImage = imageItem => {
+    this.setState({
+      modalData: imageItem,
+    });
+  };
+
   render() {
-    const { images, totalImages } = this.state;
+    const { images, totalImages, isLoading, modalData } = this.state;
 
     const showButton = images.length !== totalImages;
-    console.log(images.length);
+
     return (
       <div>
+        {/* {isLoading && (
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        )} */}
+
         <SearchBar onSubmit={this.getQuery} />
-        <ImageGallery>
-          <ImageGalleryItem images={images} />
-        </ImageGallery>
+        {images.length > 0 && (
+          <ImageGallery>
+            <ImageGalleryItem images={images} onSelect={this.selectImage} />
+          </ImageGallery>
+        )}
+        {modalData && <Modal url={modalData} onClick={this.toggleModal} />}
         {showButton && <Button onClick={this.incrementPage} />}
       </div>
     );
