@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Alert, bootstrap } from 'bootstrap';
+// import { Alert, bootstrap } from 'bootstrap';
 
 import * as ImageService from 'service/image-service';
 import { SearchBar } from 'components/searchbar/searchbar';
@@ -90,7 +90,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, totalImages, isLoading, modalData } = this.state;
+    const { images, totalImages, modalData } = this.state;
 
     const showButton = images.length !== totalImages;
 
