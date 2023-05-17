@@ -1,5 +1,5 @@
 import { Component } from 'react';
-// import { Alert, bootstrap } from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as ImageService from 'service/image-service';
 import { SearchBar } from 'components/searchbar/searchbar';
@@ -7,6 +7,7 @@ import { ImageGallery } from 'components/imageGallery/imageGallery';
 import { ImageGalleryItem } from 'components/imageGalleryItem/imageGalleryItem';
 import { Button } from 'components/button/button';
 import { Modal } from 'components/modal/modal';
+import { Loader } from 'components/loader/loader';
 
 export class App extends Component {
   state = {
@@ -15,7 +16,7 @@ export class App extends Component {
     images: [],
     totalImages: 0,
     error: '',
-    isLoading: 'false',
+    isLoading: false,
     modalData: null,
   };
 
@@ -70,11 +71,17 @@ export class App extends Component {
   };
 
   incrementPage = () => {
+    // this.setState({
+    //   isLoading: true,
+    // });
     this.setState(prevState => {
       return {
         page: prevState.page + 1,
       };
     });
+    // this.setState({
+    //   isLoading: false,
+    // });
   };
 
   toggleModal = () => {
@@ -90,17 +97,13 @@ export class App extends Component {
   };
 
   render() {
-    const { images, totalImages, modalData } = this.state;
+    const { images, totalImages, isLoading, modalData } = this.state;
 
     const showButton = images.length !== totalImages;
 
     return (
       <div>
-        {/* {isLoading && (
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        )} */}
+        {isLoading && <Loader />}
 
         <SearchBar onSubmit={this.getQuery} />
         {images.length > 0 && (
@@ -109,7 +112,13 @@ export class App extends Component {
           </ImageGallery>
         )}
         {modalData && <Modal url={modalData} onClick={this.toggleModal} />}
-        {showButton && <Button onClick={this.incrementPage} />}
+
+        {showButton && (
+          <div>
+            {isLoading && <Loader />}
+            <Button onClick={this.incrementPage} />
+          </div>
+        )}
       </div>
     );
   }
