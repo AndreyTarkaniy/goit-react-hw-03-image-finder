@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import css from 'components/modal/modal.module.css';
 
 export const Modal = ({ url: { largeImageURL, tags }, onClick }) => {
@@ -9,4 +11,14 @@ export const Modal = ({ url: { largeImageURL, tags }, onClick }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  url: PropTypes.arrayOf(
+    PropTypes.shape({
+      largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+  onClick: PropTypes.func.isRequired,
 };

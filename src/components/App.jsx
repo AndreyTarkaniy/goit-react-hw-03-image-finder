@@ -102,7 +102,7 @@ export class App extends Component {
     const showButton = images.length !== totalImages;
 
     return (
-      <div>
+      <div style={{ padding: 20 }}>
         {isLoading && <Loader />}
 
         <SearchBar onSubmit={this.getQuery} />
