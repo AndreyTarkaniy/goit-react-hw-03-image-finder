@@ -17,7 +17,7 @@ export class App extends Component {
     totalImages: 0,
     error: '',
     isLoading: false,
-    modalData: null,
+    modalData: false,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -76,9 +76,9 @@ export class App extends Component {
     });
   };
 
-  toggleModal = () => {
+  closeModal = () => {
     this.setState({
-      modalData: !this.state.modalData,
+      modalData: false,
     });
   };
 
@@ -103,12 +103,11 @@ export class App extends Component {
             <ImageGalleryItem images={images} onSelect={this.selectImage} />
           </ImageGallery>
         )}
-        {modalData && <Modal url={modalData} onClick={this.toggleModal} />}
+        {modalData && <Modal url={modalData} onClick={this.closeModal} />}
 
         {showButton && (
           <div>
-            {isLoading && <Loader />}
-            <Button onClick={this.incrementPage} />
+            {isLoading ? <Loader /> : <Button onClick={this.incrementPage} />}
           </div>
         )}
       </div>
