@@ -17,7 +17,7 @@ export class App extends Component {
     totalImages: 0,
     error: '',
     isLoading: false,
-    modalData: false,
+    modalData: null,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -78,7 +78,7 @@ export class App extends Component {
 
   closeModal = () => {
     this.setState({
-      modalData: false,
+      modalData: null,
     });
   };
 
